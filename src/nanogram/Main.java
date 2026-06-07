@@ -27,7 +27,21 @@ public class Main {
 		    }
 		return true;
 	}
+	
+	public static void disableAllCells(JButton[][] cells)
+	{
+	    for (JButton[] row : cells)
+	    {
+	        for (JButton cell : row)
+	        {
+	            cell.setEnabled(false);
+	        }
+	    }
+	}
+	
+	
 	public static void main(String[] args) {
+		int lives[] = {3};
 		boolean[][] solution = {
 			    {false, false, true , false, false},
 			    {false, true , true , true , false},
@@ -77,8 +91,23 @@ public class Main {
         			cells[row][col] = btn;
         			gridPanel.add(btn);
         			btn.addActionListener(e->{
+        				
         				if(!solution[row][col])
+        				{
+        				
         					System.out.println("You clicked the wrong button");
+        					btn.setBackground(Color.red);
+        					lives[0]--;
+        					if (lives[0]==0)
+        					{
+        						JOptionPane.showMessageDialog(frame, "You Lose");
+        						disableAllCells(cells);
+        						return ;
+        					}
+        					JOptionPane.showMessageDialog(frame, "Wrong Button. You only have "+lives[0]+" lives");
+        					btn.setEnabled(false);
+        				}
+        				
         				else
         				{
         					btn.setBackground(Color.black);
@@ -88,13 +117,7 @@ public class Main {
         					    JOptionPane.showMessageDialog(frame,
         					            "Congratulations! You solved the Nonogram!");
 
-        					    for (int r = 0; r < cells.length; r++)
-        					    {
-        					        for (int c = 0; c < cells[r].length; c++)
-        					        {
-        					            cells[r][c].setEnabled(false);
-        					        }
-        					    }
+        					    disableAllCells(cells);
         					}
         				}
         			});
