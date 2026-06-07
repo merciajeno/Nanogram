@@ -8,10 +8,25 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Main {
 
+	public static boolean checkAnswer(boolean[][] a,boolean[][] b)
+	{
+		 for (int i = 0; i < a.length; i++)
+		    {
+		        
+
+		        for (int j = 0; j < a[i].length; j++)
+		        {
+		            if (a[i][j] != b[i][j])
+		                return false;
+		        }
+		    }
+		return true;
+	}
 	public static void main(String[] args) {
 		boolean[][] solution = {
 			    {false, false, true , false, false},
@@ -20,6 +35,7 @@ public class Main {
 			    {false, true , true , true , false},
 			    {false, false, true , false, false}
 			};
+		boolean[][] actual = new boolean[5][5];
 	    String[] rowHints= {"1",
 	    	    "3",
 	    	    "5",
@@ -64,7 +80,23 @@ public class Main {
         				if(!solution[row][col])
         					System.out.println("You clicked the wrong button");
         				else
+        				{
         					btn.setBackground(Color.black);
+        					actual[row][col] = true;
+        					if (checkAnswer(solution, actual))
+        					{
+        					    JOptionPane.showMessageDialog(frame,
+        					            "Congratulations! You solved the Nonogram!");
+
+        					    for (int r = 0; r < cells.length; r++)
+        					    {
+        					        for (int c = 0; c < cells[r].length; c++)
+        					        {
+        					            cells[r][c].setEnabled(false);
+        					        }
+        					    }
+        					}
+        				}
         			});
         		}
         	}
